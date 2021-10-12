@@ -12,3 +12,7 @@ def create_dir(dirs):
         os.makedirs(each_dir,exist_ok=True)
         print("directory is created at",each_dir)
     
+def save_data(data,data_path):
+    data.to_csv(data_path,index=False)
+    print("Data is saved at localtion {0}".format(data_path))
+    
