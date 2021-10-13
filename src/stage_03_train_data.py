@@ -1,9 +1,10 @@
-from src.utils.all_utils import read_yaml,save_data,create_dir
+from src.utils.all_utils import read_yaml,save_data,create_dir,save_model
 from sklearn.linear_model import LinearRegression,ElasticNet
 import argparse
 import os
 import yaml
 import pandas as pd
+
 
 
 
@@ -28,15 +29,18 @@ def train_data(config_path,params_path):
     trainy = traindf["quality"]
     trainx = traindf.drop("quality",axis=1)
 
-    lr = ElasticNet(alpha=alpha_val,l1_ratio=l1_ratio_val,random_state=random_state_val)
-    lr.fit(trainx,trainy)
+    ElasticNet_model = ElasticNet(alpha=alpha_val,l1_ratio=l1_ratio_val,random_state=random_state_val)
+    ElasticNet_model.fit(trainx,trainy)
     print("training done!!")
 
+    model_dir_name = content["artifacts"]["model_dir"]
+    ElasticNet_model_file = content["artifacts"]["elasticnet_model"]
+    model_dir_path =  os.path.join(artifacts_dir,model_dir_name)
+    create_dir(dirs=[model_dir_path])
 
+    ElasticNet_model_file_path = os.path.join(model_dir_path,ElasticNet_model_file)
 
-
-
-
+    save_model(ElasticNet_model_file_path,ElasticNet_model)
 
 
 
